@@ -1,0 +1,58 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Triangle;
+
+namespace GeometryTest {
+
+    [TestClass]
+    public class GeometryTest {
+
+        [TestMethod]
+        public void GetSquareOfRightTriangleTest1() {
+
+            var res = Geometry.GetSquareOfRightTriangle(1, 1, Math.Sqrt(2));
+            Assert.AreEqual(res, 0.5);
+            res = Geometry.GetSquareOfRightTriangle(1, Math.Sqrt(2), 1);
+            Assert.AreEqual( res, 0.5 );
+            res = Geometry.GetSquareOfRightTriangle(Math.Sqrt(2), 1, 1);
+            Assert.AreEqual(res, 0.5);
+
+            res = Geometry.GetSquareOfRightTriangle(4, 5, Math.Sqrt(41));
+            Assert.AreEqual( res, 10 );
+            Geometry.GetSquareOfRightTriangle(5, 4, Math.Sqrt(41));
+            Assert.AreEqual(res, 10);
+            Geometry.GetSquareOfRightTriangle(4, Math.Sqrt(41), 5);
+            Assert.AreEqual(res, 10);
+            Geometry.GetSquareOfRightTriangle(Math.Sqrt(41), 5, 4);
+            Assert.AreEqual(res, 10);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Geometry.NotRightTriangleException))]
+        public void GetSquareOfRightTriangleTest2() {
+            Geometry.GetSquareOfRightTriangle( 45, 2222, 31 );
+        }
+
+         [TestMethod]
+        [ExpectedException(typeof(Geometry.NotRightTriangleException))]
+        public void GetSquareOfRightTriangleTest3() {
+            Geometry.GetSquareOfRightTriangle( 3, 3, 3 );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof (Geometry.InputLessThanOrEqualZeroException))]
+        public void GetSquareOfRightTriangleTest4() {
+            Geometry.GetSquareOfRightTriangle(0, 0, 0);
+            Geometry.GetSquareOfRightTriangle(0, 1, 0);
+            Geometry.GetSquareOfRightTriangle(0, 0, 1);
+            Geometry.GetSquareOfRightTriangle(0, 1, 1);
+            Geometry.GetSquareOfRightTriangle(1, 1, 0);
+
+            Geometry.GetSquareOfRightTriangle(-1, 1, 1);
+            Geometry.GetSquareOfRightTriangle(-1, -1, 1);
+            Geometry.GetSquareOfRightTriangle(-1, -1, -1);
+            Geometry.GetSquareOfRightTriangle(1, -1, 1);
+            Geometry.GetSquareOfRightTriangle(1, 1, -1);
+        }
+    }
+}
