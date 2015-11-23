@@ -1,0 +1,50 @@
+using System;
+
+namespace Triangle {
+
+    public static class Geometry {
+
+        public class NotRightTriangleException : Exception {
+            public NotRightTriangleException(string mes) : base(mes) { }
+        }
+
+        public class InputLessThanOrEqualZeroException : Exception {
+            public InputLessThanOrEqualZeroException(string mes) : base(mes) { }
+        }
+
+        public static double GetSquareOfRightTriangle( double a, double b, double c ) {
+
+            if ( a <= 0 || b <= 0 || c <= 0 ) {
+                throw new InputLessThanOrEqualZeroException( "Input less than 0 is impossible." );
+            }
+
+            if ( a.Equals(b) && b.Equals(c) && c.Equals(a) ) {
+                throw new NotRightTriangleException( "This is not a right triangle." );
+            }
+
+            var max = Math.Max( Math.Max( a, b ), c );
+            
+            if ( a.Equals( max ) && _check( a, b, c ) ) {
+                return _get( b, c );
+            }
+            if ( b.Equals( max ) && _check( b, a, c ) ) {
+                return _get( a, c );
+            }
+            if ( c.Equals( max ) && _check( c, a, b ) ) {
+                return _get( a, b );
+            }
+
+            throw new NotRightTriangleException("This is not a right triangle.");
+        }
+
+        private const double Accuracy = 0.0000001;
+
+        private static bool _check( double h, double katet1, double katet2) {
+            return (h*h) - (katet1 * katet1 + katet2 * katet2) < Accuracy;
+        }
+
+        private static double _get( double katet1, double katet2 ) {
+            return katet1 * katet2 / 2;
+        }
+    }
+}
