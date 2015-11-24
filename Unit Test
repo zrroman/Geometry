@@ -9,31 +9,49 @@ namespace GeometryTest {
 
         [TestMethod]
         public void GetSquareOfRightTriangleTest1() {
-
-            var res = Geometry.GetSquareOfRightTriangle(1, 1, Math.Sqrt(2));
-            Assert.AreEqual(res, 0.5);
-            res = Geometry.GetSquareOfRightTriangle(1, Math.Sqrt(2), 1);
-            Assert.AreEqual( res, 0.5 );
-            res = Geometry.GetSquareOfRightTriangle(Math.Sqrt(2), 1, 1);
-            Assert.AreEqual(res, 0.5);
-
-            res = Geometry.GetSquareOfRightTriangle(4, 5, Math.Sqrt(41));
-            Assert.AreEqual( res, 10 );
-            Geometry.GetSquareOfRightTriangle(5, 4, Math.Sqrt(41));
-            Assert.AreEqual(res, 10);
-            Geometry.GetSquareOfRightTriangle(4, Math.Sqrt(41), 5);
-            Assert.AreEqual(res, 10);
-            Geometry.GetSquareOfRightTriangle(Math.Sqrt(41), 5, 4);
-            Assert.AreEqual(res, 10);
+            for ( double a = 0.1; a < 10000; a++ ) {
+                for (double b = 0.1; b < 1000; b++) {
+                    var expected = a * b / 2;
+                    var c = Math.Sqrt( a*a + b*b );
+                    var res = Geometry.GetSquareOfRightTriangle( a, b, c);
+                    Assert.AreEqual( res, expected );
+                    res = Geometry.GetSquareOfRightTriangle( a, c, b );
+                    Assert.AreEqual( res, expected );
+                    res = Geometry.GetSquareOfRightTriangle( c, b, a );
+                    Assert.AreEqual( res, expected );
+                    res = Geometry.GetSquareOfRightTriangle( c, a, b );
+                    Assert.AreEqual(res, expected);
+                    res = Geometry.GetSquareOfRightTriangle( b, c, a );
+                    Assert.AreEqual(res, expected);
+                    res = Geometry.GetSquareOfRightTriangle( b, a, c );
+                    Assert.AreEqual(res, expected);
+                }
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Geometry.NotRightTriangleException))]
         public void GetSquareOfRightTriangleTest2() {
-            Geometry.GetSquareOfRightTriangle( 45, 2222, 31 );
+            double res = -1;
+            for ( double a = 0.1; a < 1000; a++ ) {
+                for (double b = 0.1; b < 100; b++) {
+                    var c = Math.Sqrt( a*a + b*b ) + 0.1;
+                    try {
+                        res = Geometry.GetSquareOfRightTriangle(a, b, c);
+                        res = Geometry.GetSquareOfRightTriangle(a, c, b);
+                        res = Geometry.GetSquareOfRightTriangle(b, c, a);
+                        res = Geometry.GetSquareOfRightTriangle(b, a, c);
+                        res = Geometry.GetSquareOfRightTriangle(c, b, a);
+                        res = Geometry.GetSquareOfRightTriangle(c, a, b);
+                    }
+                    catch (Geometry.NotRightTriangleException) {
+                        continue;
+                    }
+                }
+            }
+            Assert.AreEqual( res, -1 );
         }
 
-         [TestMethod]
+        [TestMethod]
         [ExpectedException(typeof(Geometry.NotRightTriangleException))]
         public void GetSquareOfRightTriangleTest3() {
             Geometry.GetSquareOfRightTriangle( 3, 3, 3 );
