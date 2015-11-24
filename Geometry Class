@@ -40,8 +40,8 @@ namespace Triangle {
         private const double Accuracy = 0.0000001;
 
         private static bool _check( double h, double katet1, double katet2) {
-            var tmp = (h * h) - (katet1 * katet1 + katet2 * katet2);
-            return tmp >= 0 && tmp < Accuracy;
+            var tmp = Math.Abs( (h * h) - (katet1 * katet1 + katet2 * katet2) );
+            return tmp < Accuracy;
         }
 
         private static double _get( double katet1, double katet2 ) {
